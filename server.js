@@ -7,7 +7,7 @@ const Vote = require('./models/votes')
 require('dotenv').config()
 
 const app = express()
-const port = 3001
+// const port = 3001
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 
 app.use(bodyParser.json())
