@@ -3,7 +3,7 @@ require('dotenv').config()
 
 const TOKEN = process.env.TOKEN
 const DATA_API_URL = process.env.DATA_API_URL || 'https://api.themoviedb.org/3/discover/movie?sort_by=popularity.dsc'
-const MY_API_URL = process.env.MY_API_URL || 'http://localhost:3001'
+const MY_API_URL = process.env.MY_API_URL || 'http://localhost:3000'
 
  
 axios({
