@@ -7,10 +7,10 @@ const Vote = require('./models/votes')
 require('dotenv').config()
 
 const app = express()
-const port = process.env.PORT;
-if (port == null || port == "") {
-  port = 8000;
-}
+// const port = process.env.PORT;
+// if (port == null || port == "") {
+//   port = 8000;
+// }
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 
 app.use(bodyParser.json())
@@ -92,5 +92,10 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
-  app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+//   app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+  let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
+app.listen(port);
 });
