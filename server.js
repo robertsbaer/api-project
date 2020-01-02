@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const Movie = require('./models/movies')
+const Vote = require('./models/votes')
 require('dotenv').config()
 
 const app = express()
@@ -12,7 +13,34 @@ mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTop
 app.use(bodyParser.json())
 app.use(cors())
 
+/* VOTES ROUTES */
+app.get('/votes', (req, res) => {
+    Vote.find()
+        .then(votes => {
+            res.send(votes)
+        })
+        .catch(err => {
+            res.status(500).send(err)
+        })
+})
+app.post('/votes', (req, res) => {
+    console.log("POST /votes req.body", req.body)
+    const upvote = req.body.upvote
+    const movie= req.body.movie
 
+    const createdVote = new Vote({
+        upvote: upvote,
+        movie: movie
+    })
+    createdVote.save()
+        .then(vote => {
+            res.send(vote)
+        })
+        .catch(err => {
+            res.status(500).send(err)
+        })
+})
+/* MOVIES ROUTES */
 app.get('/movies', (req, res) => {
     Movie.find()
         .then(movies => {
@@ -22,7 +50,6 @@ app.get('/movies', (req, res) => {
             res.status(500).send(err)
         })
 })
-
 /**
  * create a new movie
  */
@@ -39,6 +66,9 @@ app.post('/movies', (req, res) => {
     createdMovie.save()
         .then(movie => {
             res.send(movie)
+        })
+        .catch(err => {
+            res.status(500).send(err)
         })
 })
 
