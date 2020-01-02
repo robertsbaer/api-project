@@ -8,17 +8,8 @@ const Vote = require('./models/votes')
 require('dotenv').config()
 
 const app = express()
-// const port = 3000
-
-let mongoURI = ""
-if (process.env.NODE_ENV === "production") {
-    mongoURI = process.env.DB_URL;
-} else {
-    mongoURI = "mongodb://localhost/DATABASE_URL"
-}
-
+const port = 3000
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true});
-
 
 app.use(bodyParser.json())
 app.use(cors())
@@ -71,12 +62,10 @@ app.post('/movies', (req, res) => {
     const title = req.body.title
     const release_date = req.body.release_date
     const popularity = req.body.popularity
-    const upvote = req.body.upvote
     const createdMovie = new Movie({
         title: title,
         release_date: new Date(release_date),
-        popularity: popularity,
-        upvote: upvote
+        popularity: popularity
     })
     createdMovie.save()
         .then(movie => {
@@ -100,13 +89,9 @@ app.get('/movies/:id', (req, res) => {
 })
 
 
-
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
-  app.set("port", process.env.PORT || 5050);
-    app.listen(app.get("port"), () => {
-    console.log(`✅ PORT: ${app.get("port")} 🌟`);
-  });
+  app.listen(port, () => console.log(`Example app listening on port ${port}!`))
 });

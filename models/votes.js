@@ -1,4 +1,6 @@
 const {Schema, model} = require('mongoose')
+const mongoose = require('../connection')
+
 
 const votesSchema = new Schema({
     upvote: Boolean,
