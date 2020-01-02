@@ -13,9 +13,19 @@ app.use(bodyParser.json())
 app.use(cors())
 
 
-app.get('/movies', (req, res) => res.send('<h1>see/movies</h1>'))
+app.get('/movies', (req, res) => {
+    Movie.find()
+        .then(movies => {
+            res.send(movies)
+        })
+        .catch(err => {
+            res.status(500).send(err)
+        })
+})
 
-
+/**
+ * create a new movie
+ */
 app.post('/movies', (req, res) => {
     console.log("POST /movies req.body", req.body)
     const title = req.body.title
@@ -35,15 +45,13 @@ app.post('/movies', (req, res) => {
 app.get('/movies/:id', (req, res) => {
     console.log('GET /movies/:id req', req)
     const id = req.params.id
-    console.log('GET /movies/:id id', id)
-    const foundBook = books.find(book => book.id == id)
-    if(foundBook){
-        res.send(foundBook)
-    } else {
-        res.status(404).send({
-            message: `Book with id ${id} not found`
-        })
-    }
+    Movie.findById(id)
+    .then(movie => {
+        res.send(movie)
+    })
+    .catch(err => {
+        res.status(500).send(err)
+    })
 })
 
 
