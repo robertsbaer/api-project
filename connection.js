@@ -1,13 +1,15 @@
 const mongoose = require('mongoose')
+mongoose.Promise = Promise
 //take this out?
 // const mongoURL = 'mongodb://localhost/breweries'
+
+
 let mongoURI = "";
 if (process.env.NODE_ENV === "production") {
     mongoURI = process.env.DB_URL;
   } else {
     mongoURI = "mongodb://localhost/movies";
   }
-mongoose.Promise = Promise
 //but then mongoURL is not defined, so take this out too?
 mongoose.connect(mongoURI, {
     useNewUrlParser : true,

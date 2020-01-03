@@ -8,9 +8,12 @@ const Vote = require('./models/votes')
 require('dotenv').config()
 
 const app = express()
-const port = 3000
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true});
+// const port = 3000
+// mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true, useUnifiedTopology: true});
 
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 app.use(cors())
 
@@ -89,9 +92,15 @@ app.get('/movies/:id', (req, res) => {
 })
 
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
-  // we're connected!
-  app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error:'));
+// db.once('open', function() {
+//   // we're connected!
+//   app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+// });
+
+app.set("port", process.env.PORT || 3000);
+
+app.listen(app.get("port"), () => {
+  console.log(`✅ PORT: ${app.get("port")} 🌟`);
 });
